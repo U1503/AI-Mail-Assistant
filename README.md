@@ -41,35 +41,6 @@ This version supports **single-user Gmail integration** via OAuth 2.0.
 
 ---
 
-## 📁 Project Structure
-
-```
-
-MailAssistant_SingleUser/
-│
-├── backend/
-│   ├── app/
-│   │   ├── agents/
-│   │   │   ├── nodes/
-│   │   │   ├── tools/
-│   │   │   └── graph.py
-│   │   ├── api/
-│   │   ├── core/
-│   │   ├── models/
-│   │   ├── services/
-│   │   └── main.py
-│   └── ...
-│
-├── frontend/
-│   └── streamlit_app.py
-│
-├── requirements.txt
-└── README.md
-
-````
-
----
-
 ## ⚙️ Installation
 
 ### 1️⃣ Clone Repository
@@ -183,18 +154,6 @@ streamlit run frontend/streamlit_app.py
 
 ---
 
-## 🌍 Exposing via ngrok (Optional)
-
-To share the backend publicly:
-
-```bash
-ngrok http 8000
-```
-
-Use the generated HTTPS URL as your API base endpoint.
-
----
-
 ## 🧠 Core Features
 
 ### Email Operations
@@ -243,24 +202,9 @@ git commit -m "Meaningful commit message"
 git push origin main
 ```
 
----
-
-## 📈 Roadmap
-
-* Multi-user Gmail OAuth support
-* JWT-based authentication
-* Per-user token storage in database
-* Background task processing
-* Docker containerization
-* CI/CD integration
-* Cloud deployment (Render / Railway / AWS)
-
----
 
 ## 👨‍💻 Author
 
 **Sayan Kr Maiti**
 GitHub: [https://github.com/Santu004](https://github.com/Santu004)
 
-```
-```
