@@ -1,75 +1,15 @@
-# from typing import Dict, Any
-
-
-# def router_node(state: Dict[str, Any]) -> Dict[str, Any]:
-
-#     pending = (state.get("pending_action") or "").strip()
-#     user_input = state.get("user_input", "").strip().lower()
-#     intent = state.get("intent")
-
-#     # -------------------------------------------------
-#     # HANDLE CONFIRMATION ONLY IF INTENT IS NONE
-#     # -------------------------------------------------
-#     if pending and intent is None:
-
-#         if pending == "CONFIRM_SEND":
-
-#             if user_input in {"yes", "yes!", "yes please", "sure", "ok", "okay"}:
-#                 state["_next"] = "tool"
-#                 return state
-
-#             state["response"] = "Okay, I won't send the email."
-#             state["pending_action"] = None
-#             state["tool_input"] = None
-#             state["tool_result"] = None
-#             state["_next"] = "final"
-#             return state
-
-#         if pending == "CONFIRM_SUMMARY":
-
-#             if user_input in {"yes", "yes!", "yes please", "sure", "ok", "okay"}:
-#                 state["_next"] = "tool"
-#                 return state
-
-#             state["response"] = "Okay, I won't summarize the emails."
-#             state["pending_action"] = None
-#             state["tool_input"] = None
-#             state["tool_result"] = None
-#             state["_next"] = "final"
-#             return state
-        
-#     # -------------------------------------------------
-#     # Auto-cancel if user asks something new
-#     # -------------------------------------------------
-#     if pending and intent not in {None, "send_email"}:
-#         print("DEBUG: Auto-cancelling pending action due to new intent")
-#         state["pending_action"] = None
-#         state["tool_input"] = None
-#         state["tool_result"] = None
-#         state["response"] = None   # 🔥 ADD THIS
-#         pending = None
-
-
-
-#     # -------------------------------------------------
-#     # NORMAL ROUTING
-#     # -------------------------------------------------
-#     if intent in {"unread_count", "important_count"}:
-#         state["_next"] = "tool"
-#         return state
-
-#     if intent == "send_email":
-#         state["_next"] = "final"
-#         return state
-
-#     state["_next"] = "final"
-#     return state
-
 
 from typing import Dict, Any
 
 
 def router_node(state: Dict[str, Any]) -> Dict[str, Any]:
+
+    # 🔥 STOP IF LLM ALREADY GENERATED A RESPONSE
+    if state.get("response") and state.get("pending_action") != "CONFIRM_SEND":
+        state["_next"] = "final"
+        return state
+
+
     pending = (state.get("pending_action") or "").strip()
     user_input = state.get("user_input", "").strip().lower()
     intent = state.get("intent")
@@ -96,26 +36,6 @@ def router_node(state: Dict[str, Any]) -> Dict[str, Any]:
             return state
 
         # still waiting for yes/no
-        state["_next"] = "final"
-        return state
-
-    # -------------------------------------------------
-    # 🔥 CONFIRM SUMMARY
-    # -------------------------------------------------
-    if pending == "CONFIRM_SUMMARY":
-
-        if user_input in {"yes", "yes!", "yes please", "sure", "ok", "okay"}:
-            state["_next"] = "tool"
-            return state
-
-        if user_input in {"no", "nope", "cancel"}:
-            state["response"] = "Okay, I won't summarize the emails."
-            state["pending_action"] = None
-            state["tool_input"] = None
-            state["tool_result"] = None
-            state["_next"] = "final"
-            return state
-
         state["_next"] = "final"
         return state
 

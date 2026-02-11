@@ -1,109 +1,3 @@
-# from typing import Dict, Any
-# from app.agents.email_agent.tools.gmail_reader import (
-#     get_unread_emails,
-#     get_important_emails,
-# )
-# from app.agents.email_agent.tools.gmail_sender import send_email
-# from app.services.llm_service import get_llm
-
-
-# def tool_node(state: Dict[str, Any]) -> Dict[str, Any]:
-#     """
-#     Executes tool actions based on intent or confirmation.
-#     Always returns state.
-#     """
-
-#     llm = get_llm()
-#     intent = state.get("intent")
-#     user_input = state.get("user_input", "")
-
-#     print("DEBUG TOOL NODE:", intent, state.get("pending_action"))
-
-#     # -------------------------------------------------
-#     # UNREAD COUNT
-#     # -------------------------------------------------
-#     if intent == "unread_count":
-
-#         limit = state.get("limit", 10)
-
-#         unread_count = get_unread_emails(limit=limit)
-
-#         state["tool_result"] = {
-#             "unread_count": unread_count
-#         }
-
-#         return state
-
-
-#     # -------------------------------------------------
-#     # IMPORTANT EMAILS
-#     # -------------------------------------------------
-#     if intent == "important_count":
-#         emails = get_important_emails(limit=10)
-
-#         state["tool_result"] = {
-#             "important_count": len(emails),
-#             "emails": emails
-#         }
-
-
-#     # -------------------------------------------------
-#     # CONFIRM SUMMARY
-#     # -------------------------------------------------
-#     if state.get("pending_action") == "CONFIRM_SUMMARY":
-
-#         emails = state.get("tool_result", {}).get("emails", [])
-
-#         if not emails:
-#             state["response"] = "No important emails found."
-#             state["pending_action"] = None
-#             state["tool_result"] = None
-#             return state
-
-#         combined_text = "\n\n".join(
-#             f"Subject: {e.get('subject')}\nFrom: {e.get('from')}\n\n{e.get('body', '')}"
-#             for e in emails[:5]
-#         )
-
-#         prompt = f"""
-# Summarize the following emails clearly and concisely.
-# Highlight any deadlines if present.
-
-# Emails:
-# {combined_text}
-# """
-
-#         summary = llm.invoke(prompt).content.strip()
-
-#         state["tool_result"] = {"summary": summary}
-#         state["pending_action"] = None
-
-#         return state
-
-#     # -------------------------------------------------
-#     # CONFIRM SEND EMAIL
-#     # -------------------------------------------------
-#     if state.get("pending_action") == "CONFIRM_SEND":
-
-#         payload = state.get("tool_input", {})
-
-#         print("DEBUG: About to send email")
-
-#         result = send_email(payload)
-
-#         print("DEBUG: SEND RESULT:", result)
-
-#         state["tool_result"] = result
-#         state["pending_action"] = None
-
-#         return state
-
-#     # -------------------------------------------------
-#     # DEFAULT (Do Nothing)
-#     # -------------------------------------------------
-#     return state
-
-
 
 from typing import Dict, Any
 import re
@@ -279,7 +173,11 @@ Body: {email.get('body', '')[:500]}
         prompt = f"""
 Important emails found: {count}
 
-Respond naturally and offer to summarize the most recent one.
+Respond in ONE short sentence.
+Say: "You have X important emails."
+Replace X with the number.
+Do NOT add extra commentary.
+
 """
 
         state["response"] = llm.invoke(prompt).content.strip()
