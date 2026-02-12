@@ -99,6 +99,11 @@ def get_important_emails(limit: int = 10) -> List[Dict[str, str]]:
         service.users()
         .messages()
         .list(userId="me", q="is:important", maxResults=limit)
+        # .list(
+        #     userId="me",
+        #     q="in:inbox is:important -in:sent -from:me",
+        #     maxResults=limit
+        # )
         .execute()
     )
 

@@ -27,6 +27,14 @@ class EmailAgentState(TypedDict):
     # --------------------------------------------------
     pending_action: Optional[str]
 
+
+    # --------------------------------------------------
+    # Email Draft Handling (NEW)
+    # --------------------------------------------------
+    draft_email: Optional[Dict[str, Any]]  # {"to": "", "subject": "", "body": ""}
+    email_status: Optional[str]  # "draft" | "awaiting_confirmation" | "sent"
+
+
     # --------------------------------------------------
     # Important email processing
     # --------------------------------------------------

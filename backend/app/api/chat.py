@@ -18,6 +18,7 @@ router = APIRouter()
 class ChatRequest(BaseModel):
     message: str
     session_id: Optional[str] = None
+    updated_draft: Optional[Dict[str, Any]] = None
 
 
 # -----------------------------
@@ -58,6 +59,8 @@ async def chat_endpoint(request: ChatRequest):
             state["intent"] = None   # 🔥 ADD THIS
             # Update user input
             state["user_input"] = request.message
+            state["updated_draft"] = request.updated_draft
+
         else:
             state = {
                 "session_id": session_id,
@@ -71,6 +74,8 @@ async def chat_endpoint(request: ChatRequest):
                 "tasks": [],
                 "response": None,
                 "messages": [],
+                "updated_draft": request.updated_draft,
+
             }
 
         # ------------------------------------------

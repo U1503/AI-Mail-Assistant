@@ -34,15 +34,17 @@ def tool_node(state: Dict[str, Any]) -> Dict[str, Any]:
     # -------------------------------------------------
     # 📤 SEND EMAIL (ONLY AFTER CONFIRMATION)
     # -------------------------------------------------
-    if (
-        state.get("tool_name") == "SEND_EMAIL"
-        and state.get("pending_action") is None
-    ):
-        payload = state.get("tool_input")
+    if state.get("email_status") == "ready_to_send":
 
-        result = send_email(
-            payload=payload
-        )
+        payload = state.get("draft_email")
+
+        if not payload:
+            state["response"] = "No draft email found to send."
+            state["tool_result"] = {}
+            state["_next"] = "__end__"
+            return state
+
+        result = send_email(payload=payload)
 
         state["tool_result"] = result
 
@@ -50,12 +52,16 @@ def tool_node(state: Dict[str, Any]) -> Dict[str, Any]:
             f"✅ Email successfully sent to {payload.get('to')}."
         )
 
-        # clear send state after execution
+        # 🔥 CLEAR DRAFT AFTER SENDING
         state["tool_name"] = None
         state["tool_input"] = None
+        state["draft_email"] = None
+        state["pending_action"] = None
+        state["email_status"] = None
 
         state["_next"] = "final"
         return state
+
 
 
 

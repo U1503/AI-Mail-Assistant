@@ -29,7 +29,7 @@ def build_email_agent():
     # Router conditional routing
     graph.add_conditional_edges(
         "router",
-        lambda state: state.get("_next"),   # we will set this in router
+        lambda state: state.get("_next"),   # 
         {
             "tool": "tool",
             "final": "final",

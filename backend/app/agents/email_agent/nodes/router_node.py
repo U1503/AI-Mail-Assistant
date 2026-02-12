@@ -13,6 +13,13 @@ def router_node(state: Dict[str, Any]) -> Dict[str, Any]:
     pending = (state.get("pending_action") or "").strip()
     user_input = state.get("user_input", "").strip().lower()
     intent = state.get("intent")
+    # -------------------------------------------------
+    # 🔥 DIRECT SEND AFTER UI UPDATE
+    # -------------------------------------------------
+    if state.get("email_status") == "ready_to_send":
+        state["_next"] = "tool"
+        return state
+
 
     # -------------------------------------------------
     # 🔥 CONFIRM SEND (HIGHEST PRIORITY)

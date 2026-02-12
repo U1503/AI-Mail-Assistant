@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 st.title("📧 AI Email Assistant")
-st.caption("Stateful • DB-backed • Gmail-powered")
+# st.caption("Stateful • DB-backed • Gmail-powered")
 
 
 # -------------------------------------------------
@@ -123,6 +123,70 @@ if user_input:
 
     with st.chat_message("assistant"):
         st.markdown(assistant_reply)
+
+
+    # -------------------------------------------------
+    # 📧 Draft Editing UI (NEW)
+    # -------------------------------------------------
+
+    if "I've drafted your email." in assistant_reply:
+
+        # Try to extract Subject and Body from assistant reply
+        lines = assistant_reply.splitlines()
+
+        subject = ""
+        body = ""
+        capture_body = False
+
+        for line in lines:
+            if line.startswith("Subject:"):
+                subject = line.replace("Subject:", "").strip()
+            elif line.startswith("Body:"):
+                capture_body = True
+            elif capture_body:
+                if line.strip() == "":
+                    continue
+                body += line + "\n"
+
+        st.divider()
+        st.subheader("✏️ Edit Draft Before Sending")
+
+        # edited_subject = st.text_input("Subject", value=subject)
+        # edited_body = st.text_area("Body", value=body, height=250)
+
+        # st.info("Edit the draft above. Then type 'yes' in chat to send, or type instructions to modify it.")
+        def update_draft():
+            payload = {
+                "message": f"Update the draft to:\nSubject: {st.session_state.edit_subject}\nBody:\n{st.session_state.edit_body}",
+                "session_id": st.session_state.session_id,
+            }
+
+            response = requests.post(API_URL, json=payload, timeout=60)
+            data = response.json()
+            assistant_reply = data.get("response", "")
+
+            st.session_state.messages.append(
+                {"role": "assistant", "content": assistant_reply}
+            )
+
+
+        edited_subject = st.text_input(
+            "Subject",
+            value=subject,
+            key="edit_subject",
+            on_change=update_draft,
+        )
+
+        edited_body = st.text_area(
+            "Body",
+            value=body,
+            height=250,
+            key="edit_body",
+            on_change=update_draft,
+        )
+
+
+
 
 # -------------------------------------------------
 # Sidebar
