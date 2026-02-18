@@ -71,7 +71,7 @@ User → Streamlit UI → FastAPI Backend → LangGraph Agent → LLM (Groq) →
    ```
 
 4️⃣ Configure Environment Variables
-   Create `.env` inside backend/:
+Create .env inside backend:
      ```env      
     APP_NAME=Mail Assistant
     ENV=development
