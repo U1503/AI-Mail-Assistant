@@ -1,4 +1,4 @@
-🚀 AI Mail Assistant
+S🚀 AI Mail Assistant
 
 An AI-powered Email Assistant built using FastAPI, LangGraph, Groq LLM, Gmail API, and PostgreSQL.
 Draft, modify, and send emails intelligently using natural language.
