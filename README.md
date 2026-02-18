@@ -205,6 +205,6 @@ git push origin main
 
 ## 👨‍💻 Author
 
-**Sayan Kr Maiti**
-GitHub: [https://github.com/Santu004](https://github.com/Santu004)
+**Udit Narayan Sah**
+GitHub: https://github.com/U1503
 
