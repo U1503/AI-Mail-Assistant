@@ -71,8 +71,8 @@ User → Streamlit UI → FastAPI Backend → LangGraph Agent → LLM (Groq) →
    ```
 
 4️⃣ Configure Environment Variables
-   Create .env inside backend/:
-     ```bash      
+   Create `.env` inside backend/:
+     ```env      
     APP_NAME=Mail Assistant
     ENV=development
     DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/mailassistant2
@@ -83,7 +83,7 @@ User → Streamlit UI → FastAPI Backend → LangGraph Agent → LLM (Groq) →
     LLM_MODEL=llama-3.1-8b-instant
     ```       
 5️⃣ Setup PostgreSQL
-    ```bash  
+    ```sql  
     CREATE DATABASE mailassistant2;
      ``` 
 6️⃣ Run Backend
