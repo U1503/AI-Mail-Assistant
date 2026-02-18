@@ -1,210 +1,163 @@
-```markdown
-# Mail Assistant (Single-User Edition)
-
-An AI-powered Email Assistant built with **FastAPI**, **LangGraph**, **PostgreSQL**, and the **Gmail API**.
-
-This project enables intelligent email interactions including unread email retrieval, important email summarization, deadline extraction, and email drafting — all powered by an LLM-driven workflow engine.
-
----
-
-## 🚀 Overview
-
-Mail Assistant is a backend-driven AI system that:
-
-- Retrieves unread email counts
-- Fetches and filters important emails
-- Summarizes email content using an LLM
-- Extracts deadlines and converts them into structured tasks
-- Drafts and sends emails with confirmation
-- Maintains persistent conversation state in PostgreSQL
-
-This version supports **single-user Gmail integration** via OAuth 2.0.
-
----
-
-## 🏗 Architecture
-
-### Backend
-- FastAPI
-- LangGraph (stateful agent workflow)
-- SQLAlchemy
-- PostgreSQL
-- Gmail API (OAuth 2.0)
-- LLM Service Integration
-
-### Frontend (Optional)
-- Streamlit
-
-### Persistence
-- PostgreSQL for conversation history
-- Local OAuth token storage (`token.json`)
-
----
-
-## ⚙️ Installation
-
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/Santu004/MailAssistant_SingleUser.git
-cd MailAssistant_SingleUser
-````
-
----
-
-### 2️⃣ Create Virtual Environment
-
-```bash
-python -m venv .venv
-```
-
-Activate:
-
-**Windows**
-
-```bash
-.venv\Scripts\activate
-```
-
-**macOS/Linux**
-
-```bash
-source .venv/bin/activate
-```
-
----
-
-### 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🔐 Gmail API Configuration
-
-### Enable Gmail API
-
-1. Visit Google Cloud Console
-2. Create a new project
-3. Enable **Gmail API**
-4. Create OAuth 2.0 credentials (Desktop App)
-5. Download the credentials JSON
-
-Place the file inside:
-
-```
-backend/
-```
-
-Rename it to:
-
-```
-credentials.json
-```
-
----
-
-## 🗄 Database Setup (PostgreSQL)
-
-Create database:
-
-```sql
-CREATE DATABASE mailassistant2;
-```
-
-Tables are automatically created on application startup.
-
----
-
-## 🔧 Environment Configuration
-
-Create a `.env` file inside `backend/`:
-
-```
-DATABASE_URL=postgresql://postgres:yourpassword@localhost/mailassistant2
-GOOGLE_CLIENT_SECRET_FILE=backend/credentials.json
-GOOGLE_TOKEN_FILE=backend/token.json
-```
-
----
-
-## ▶️ Running the Application
-
-### Start Backend
-
-```bash
-uvicorn backend.app.main:app --reload
-```
-
-API available at:
-
-```
-http://127.0.0.1:8000
-```
-
----
-
-### Optional: Run Streamlit Frontend
-
-```bash
-streamlit run frontend/streamlit_app.py
-```
-
----
-
-## 🧠 Core Features
-
-### Email Operations
-
-* Unread email count (supports optional date filtering)
-* Important email retrieval with system email filtering
-* Email summarization (LLM-powered)
-* Email drafting with confirmation workflow
-* Email sending via Gmail API
-
-### Intelligence Layer
-
-* Intent detection
-* State-based workflow orchestration (LangGraph)
-* Deadline extraction
-* Structured task generation
-
-### Persistence
-
-* Conversation state stored in PostgreSQL
-* Session-based history tracking
-
----
-
-## 🔒 Security Notes
-
-Sensitive files are excluded via `.gitignore`:
-
-* `.venv/`
-* `.env`
-* `token.json`
-* `credentials.json`
-* Database files
-
-This project is configured for **local development use**.
-
----
-
-## 🛠 Development Workflow
-
-Typical update cycle:
-
-```bash
-git add .
-git commit -m "Meaningful commit message"
-git push origin main
-```
-
-
-## 👨‍💻 Author
-
-**Udit Narayan Sah**
-GitHub: https://github.com/U1503
-
+🚀 AI Mail Assistant
+
+An AI-powered Email Assistant built using FastAPI, LangGraph, Groq LLM, Gmail API, and PostgreSQL.
+Draft, modify, and send emails intelligently using natural language.
+
+✨ Features
+
+  * 🤖 AI-powered email drafting using Groq LLM
+  
+  * 📧 Send real emails via Gmail API
+  
+  * 🧠 Agent-based workflow using LangGraph
+  
+  * 💾 PostgreSQL for chat & history persistence
+  
+  * 🔐 Secure OAuth 2.0 authentication
+  
+  * 🌐 Interactive Streamlit frontend
+  
+  * 🧩 Modular backend architecture
+
+
+
+🏗️ Architecture Overview
+
+User → Streamlit UI → FastAPI Backend → LangGraph Agent → LLM (Groq) → Gmail Tool → PostgreSQL → Response to UI
+
+
+🛠️ Tech Stack
+                         Layer	                               Technology
+                         Backend	                             FastAPI
+                         Agent Framework	                     LangGraph
+                         LLM	Groq                             (LLaMA 3.1)
+                         Database	                             PostgreSQL
+                         Frontend	                             Streamlit
+                         Authentication                        Gmail OAuth 2.0
+
+
+
+
+📂 Project Structure
+
+                            ```bash
+                            AI-Mail-Assistant/
+                            │
+                            ├── backend/
+                            │   ├── app/
+                            │   │   ├── agents/
+                            │   │   ├── api/
+                            │   │   ├── core/
+                            │   │   ├── services/
+                            │   │   └── main.py
+                            │   ├── .env
+                            │   └── credentials.json (ignored)
+                            │
+                            ├── frontend/
+                            │   └── app.py
+                            │
+                            ├── requirements.txt
+                            └── README.md
+                            ```
+                            
+
+⚙️ Setup Instructions
+1️⃣ Clone Repository
+  ```bash      
+  git clone https://github.com/YOUR_USERNAME/AI-Mail-Assistant.git
+  cd AI-Mail-Assistant
+  ```
+
+
+2️⃣ Create Virtual Environment
+  ```bash
+  python -m venv venv
+  venv\Scripts\activate
+  ```
+
+3️⃣ Install Dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4️⃣ Configure Environment Variables
+   Create .env inside backend/:
+          ```bash
+          APP_NAME=Mail Assistant
+          ENV=development
+          DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/mailassistant2
+          GOOGLE_CLIENT_SECRET_FILE=credentials.json
+          GOOGLE_TOKEN_FILE=token.json
+          GMAIL_SCOPES=https://www.googleapis.com/auth/gmail.send
+          GROQ_API_KEY=your_groq_api_key
+          LLM_MODEL=llama-3.1-8b-instant
+          ```
+
+5️⃣ Setup PostgreSQL
+      ```bash
+      CREATE DATABASE mailassistant2;
+      ```
+6️⃣ Run Backend
+    ```bash
+    cd backend
+    uvicorn app.main:app --reload
+    ```
+    
+7️⃣ Run Frontend
+    ```bash
+    cd frontend
+    streamlit run app.py
+    ```
+
+
+🔐 Security
+
+Sensitive files excluded via .gitignore:
+
+  * .env
+  
+  * credentials.json
+  
+  * token.json
+  
+  * venv/
+  
+  * Database files
+ 
+
+🧠 How It Works
+
+  1. User sends natural language request.
+  
+  2. LangGraph determines intent.
+  
+  3. LLM extracts email details (to, subject, body).
+  
+  4. Confirmation step before sending.
+  
+  5. Gmail API sends email.
+  
+  6. Chat history stored in PostgreSQL.
+
+
+
+🚀 Future Improvements
+
+  * Real-time weather API integration
+  
+  * Multi-user authentication
+  
+  * Docker deployment
+  
+  * Cloud hosting (AWS / Render)
+  
+  * Advanced email classification
+  
+  * Logging & monitoring
+
+👨‍💻 Author
+  Udit Narayan Sah
+  GitHub: https://github.com/U1503
+  
+
+                         
