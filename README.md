@@ -125,8 +125,10 @@ Sensitive files excluded via .gitignore:
   * Logging & monitoring
 
 👨‍💻 Author
-    Udit Narayan Sah
-    GitHub: https://github.com/U1503
+
+
+Udit Narayan Sah
+GitHub: https://github.com/U1503
   
 
                          
