@@ -72,7 +72,7 @@ User → Streamlit UI → FastAPI Backend → LangGraph Agent → LLM (Groq) →
 
 4️⃣ Configure Environment Variables
 Create .env inside backend:
-     ```env      
+   ```env      
     APP_NAME=Mail Assistant
     ENV=development
     DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/mailassistant2
@@ -81,21 +81,21 @@ Create .env inside backend:
     GMAIL_SCOPES=https://www.googleapis.com/auth/gmail.send
     GROQ_API_KEY=your_groq_api_key
     LLM_MODEL=llama-3.1-8b-instant
-    ```       
+   ```       
 5️⃣ Setup PostgreSQL
-    ```sql  
-    CREATE DATABASE mailassistant2;
-     ``` 
+   ```sql  
+   CREATE DATABASE mailassistant2;
+   ``` 
 6️⃣ Run Backend
-    ```bash
+   ```bash
     cd backend
     uvicorn app.main:app --reload
-    ```
+   ```
 7️⃣ Run Frontend
-    ```bash
+   ```bash
     cd frontend
     streamlit run app.py
-    ```
+   ```
 🔐 Security
 
 Sensitive files excluded via .gitignore:
